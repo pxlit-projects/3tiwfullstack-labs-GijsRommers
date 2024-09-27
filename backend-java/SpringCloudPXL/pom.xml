@@ -23,8 +23,8 @@
 	</developers>
 	<modules>
 		<module>employee-service</module>
-        <module>department-service</module>
-    </modules>
+		<module>department-service</module>
+	</modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -32,7 +32,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
