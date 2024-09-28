@@ -1,15 +1,11 @@
 package be.pxl.services;
 
-import be.pxl.services.controller.EmployeeController;
 import be.pxl.services.domain.Employee;
 import be.pxl.services.repository.EmployeeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -19,9 +15,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @Testcontainers
@@ -32,7 +28,7 @@ public class EmployeeTests {
     MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -47,7 +43,6 @@ public class EmployeeTests {
         registry.add("spring.datasource.password", sqlContainer::getPassword);
     }
 
-
     @Test
     public void testCreateEmployee() throws Exception {
         Employee employee = Employee.builder()
@@ -60,6 +55,7 @@ public class EmployeeTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(employeeString))
                 .andExpect(status().isCreated());
+
         assertEquals(1, employeeRepository.findAll().size());
     }
 }
