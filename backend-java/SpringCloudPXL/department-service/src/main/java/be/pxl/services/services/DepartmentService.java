@@ -1,6 +1,7 @@
 package be.pxl.services.services;
 
 import be.pxl.services.domain.Department;
+import be.pxl.services.domain.Employee;
 import be.pxl.services.domain.dto.DepartmentRequest;
 import be.pxl.services.domain.dto.DepartmentResponse;
 import be.pxl.services.domain.exceptions.DepartmentNotFoundException;
@@ -31,6 +32,15 @@ public class DepartmentService implements IDepartmentService {
                 .build();
     }
 
+    private DepartmentResponse mapToDepartmentResponseWithEmployees(Department department) {
+        return DepartmentResponse.builder()
+                .organizationId(department.getOrganizationId())
+                .name(department.getName())
+                .employees(department.getEmployees())
+                .position(department.getPosition())
+                .build();
+    }
+
     @Override
     @Transactional
     public void addDepartment(DepartmentRequest departmentRequest) {
@@ -49,11 +59,11 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public List<DepartmentResponse> findByOrganization(Long organizationId) {
-        return List.of();
+        return departmentRepository.findDepartmentsByOrganizationId(organizationId).stream().map(this::mapToDepartmentResponse).toList();
     }
 
     @Override
     public List<DepartmentResponse> findByOrganizationWithEmployees(Long organizationId) {
-        return List.of();
+        return departmentRepository.findDepartmentsByOrganizationId(organizationId).stream().map(this::mapToDepartmentResponseWithEmployees).toList();
     }
 }
